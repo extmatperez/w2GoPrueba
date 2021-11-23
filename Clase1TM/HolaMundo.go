@@ -5,9 +5,9 @@ import "fmt"
 func main() {
 	fmt.Println("Hola mundo!!!")
 
-	var edad int
+	var edad int = 27
 
-	edad = 27
+	// edad = 27
 
 	var algo = true
 
