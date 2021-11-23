@@ -9,6 +9,13 @@ func main() {
 
 	edad = 27
 
+	var algo = true
+
+	boolean := "Algo"
+
+	fmt.Println(algo)
+	fmt.Println(boolean)
+
 	fmt.Println(edad)
 	fmt.Printf("La edad es: %v, %d, %T", edad, edad, edad)
 
