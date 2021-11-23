@@ -15,6 +15,7 @@ func main() {
 	horas := '@'
 
 	fmt.Printf("\nLas \" horas son: %v, %c, %T", horas, horas, horas)
+	fmt.Printf("\nLas \" horas son: %v, %c, %T", horas, horas, horas)
 	/*
 
 
