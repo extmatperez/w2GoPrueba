@@ -136,3 +136,70 @@ func TestStoreServiceMockError(t *testing.T) {
 	assert.Equal(t, errorEsperado, err)
 	assert.Equal(t, Persona{}, personaCreada)
 }
+
+func TestUpdateServiceMock(t *testing.T) {
+	//Arrange
+	personaNueva := Persona{
+		Nombre:   "Cristian",
+		Apellido: "Juarez",
+		Edad:     35,
+	}
+
+	dataByte := []byte(person)
+
+	dbMock := store.Mock{Data: dataByte}
+	storeStub := store.FileStore{Mock: &dbMock}
+	repo := NewRepository(&storeStub)
+
+	service := NewService(repo)
+
+	personaActualizada, _ := service.Update(1, personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+	//personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Equal(t, personaNueva.Nombre, personaActualizada.Nombre)
+	assert.Equal(t, personaNueva.Apellido, personaActualizada.Apellido)
+	assert.Equal(t, 1, personaActualizada.ID)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestUpdateNombreServiceMock(t *testing.T) {
+	//Arrange
+	nuevoNombre := "Agustin"
+
+	dataByte := []byte(person)
+
+	dbMock := store.Mock{Data: dataByte}
+	storeStub := store.FileStore{Mock: &dbMock}
+	repo := NewRepository(&storeStub)
+
+	service := NewService(repo)
+
+	personaActualizada, _ := service.UpdateNombre(2, nuevoNombre)
+	//personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Equal(t, nuevoNombre, personaActualizada.Nombre)
+	assert.Equal(t, 2, personaActualizada.ID)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestDeleteNombreServiceMock(t *testing.T) {
+	//Arrange
+
+	dataByte := []byte(person)
+
+	dbMock := store.Mock{Data: dataByte}
+	storeStub := store.FileStore{Mock: &dbMock}
+	repo := NewRepository(&storeStub)
+
+	service := NewService(repo)
+
+	err := service.Delete(2)
+	//personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Nil(t, err)
+
+	todos, _ := service.GetAll()
+
+	assert.Equal(t, 1, len(todos))
+	// assert.Nil(t, misPersonas)
+}
