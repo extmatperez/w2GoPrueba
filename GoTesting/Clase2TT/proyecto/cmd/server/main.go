@@ -68,7 +68,7 @@ func main() {
 
 	//	router.Use(TokenAuthMiddleware())
 
-	router.GET("/personas/get", TokenAuthMiddleware(), controller.GetAll())
+	router.GET("/personas/get", controller.GetAll())
 	router.POST("/personas/add", controller.Store())
 	router.PUT("/personas/:id", controller.Update())
 	router.PATCH("/personas/:id", controller.UpdateNombre())

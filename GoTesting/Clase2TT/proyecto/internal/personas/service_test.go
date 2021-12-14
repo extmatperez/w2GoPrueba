@@ -182,6 +182,25 @@ func TestUpdateNombreServiceMock(t *testing.T) {
 	// assert.Nil(t, misPersonas )
 }
 
+func TestUpdateNombreServiceMockError(t *testing.T) {
+	//Arrange
+	nuevoNombre := "Agustin"
+
+	dataByte := []byte(person)
+
+	dbMock := store.Mock{Data: dataByte}
+	storeStub := store.FileStore{Mock: &dbMock}
+	repo := NewRepository(&storeStub)
+
+	service := NewService(repo)
+
+	_, err := service.UpdateNombre(15, nuevoNombre)
+	//personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.NotNil(t, err)
+	// assert.Nil(t, misPersonas )
+}
+
 func TestDeleteNombreServiceMock(t *testing.T) {
 	//Arrange
 

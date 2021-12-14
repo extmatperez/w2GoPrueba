@@ -90,6 +90,7 @@ func (controller *Persona) Store() gin.HandlerFunc {
 
 		err := ctx.ShouldBindJSON(&perso)
 
+		fmt.Println("Desde el controller: ", perso)
 		if err != nil {
 			ctx.String(400, "Hubo un error al querer cargar una persona %v", err)
 		} else {
