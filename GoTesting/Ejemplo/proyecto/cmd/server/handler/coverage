@@ -1,0 +1,26 @@
+mode: set
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:21.51,23.2 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:44.47,45.32 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:45.32,47.17 2 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:47.17,49.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:49.9,51.4 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:57.53,58.32 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:58.32,61.17 3 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:61.17,63.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:63.9,65.18 2 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:65.18,67.5 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:67.10,69.5 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:74.54,75.32 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:75.32,81.17 3 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:85.3,87.17 2 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:81.17,83.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:87.17,89.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:89.9,91.18 2 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:91.18,93.5 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:93.10,95.5 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:101.54,102.32 1 1
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:102.32,106.17 2 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:110.3,111.17 2 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:106.17,108.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:111.17,113.4 1 0
+github.com/extmatperez/w2GoPrueba/GoTesting/Ejemplo/proyecto/cmd/server/handler/productos.go:113.9,115.4 1 0
