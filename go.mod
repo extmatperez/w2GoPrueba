@@ -3,6 +3,8 @@ module github.com/extmatperez/w2GoPrueba
 go 1.16
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
+	github.com/DATA-DOG/go-txdb v0.1.5 // indirect
 	github.com/aws/aws-sdk-go v1.42.25
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-openapi/spec v0.20.4 // indirect
