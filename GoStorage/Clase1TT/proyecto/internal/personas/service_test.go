@@ -1,9 +1,11 @@
 package internal
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -246,9 +248,9 @@ func TestStoreServiceSQL(t *testing.T) {
 func TestGetOneServiceSQL(t *testing.T) {
 	//Arrange
 	personaNueva := models.Persona{
-		Nombre:   "Matias",
-		Apellido: "Perez",
-		Edad:     27,
+		Nombre:   "Juan",
+		Apellido: "Rivera",
+		Edad:     25,
 	}
 
 	repo := NewRepositorySQL()
@@ -265,7 +267,7 @@ func TestGetOneServiceSQL(t *testing.T) {
 func TestUpdateServiceSQL(t *testing.T) {
 	//Arrange
 	personaUpdate := models.Persona{
-		ID:       2,
+		ID:       3,
 		Nombre:   "Juan",
 		Apellido: "Rivera",
 		Edad:     25,
@@ -275,11 +277,15 @@ func TestUpdateServiceSQL(t *testing.T) {
 
 	service := NewServiceSQL(repo)
 
+	personaAnterior := service.GetOne(personaUpdate.ID)
+
 	personaCargada, _ := service.Update(personaUpdate)
 
 	assert.Equal(t, personaUpdate.Nombre, personaCargada.Nombre)
 	assert.Equal(t, personaUpdate.Apellido, personaCargada.Apellido)
 	// assert.Nil(t, misPersonas)
+	_, err := service.Update(personaAnterior)
+	assert.Nil(t, err)
 }
 
 func TestUpdateServiceSQL_Failed(t *testing.T) {
@@ -298,5 +304,89 @@ func TestUpdateServiceSQL_Failed(t *testing.T) {
 	_, err := service.Update(personaUpdate)
 
 	assert.Equal(t, "No se encontro la persona", err.Error())
+	// assert.Nil(t, misPersonas)
+}
+
+func TestGetAllServiceSQL(t *testing.T) {
+	//Arrange
+	repo := NewRepositorySQL()
+
+	service := NewServiceSQL(repo)
+
+	misPersonasDB, err := service.GetAll()
+
+	assert.Nil(t, err)
+	assert.True(t, len(misPersonasDB) >= 0)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestDeleteServiceSQL(t *testing.T) {
+	//Arrange
+
+	personaNueva := models.Persona{
+		Nombre:   "Matias",
+		Apellido: "Perez",
+		Edad:     27,
+	}
+
+	repo := NewRepositorySQL()
+
+	service := NewServiceSQL(repo)
+
+	personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	err := service.Delete(personaCreada.ID)
+
+	assert.Nil(t, err)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestDeleteServiceSQL_NotFound(t *testing.T) {
+	//Arrange
+
+	repo := NewRepositorySQL()
+
+	service := NewServiceSQL(repo)
+
+	err := service.Delete(0)
+
+	assert.Equal(t, "No se encontro la persona", err.Error())
+	// assert.Nil(t, misPersonas)
+}
+
+func TestGetFullDataServiceSQL(t *testing.T) {
+	//Arrange
+
+	repo := NewRepositorySQL()
+
+	service := NewServiceSQL(repo)
+
+	misPersonas, err := service.GetFullData()
+
+	assert.Nil(t, err)
+	assert.True(t, len(misPersonas) >= 0)
+	assert.Equal(t, "Cordoba", misPersonas[0].Domicilio.Nombre)
+	// fmt.Printf("\n%+v", misPersonas)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestGetOneContextServiceSQL(t *testing.T) {
+	//Arrange
+	personaNueva := models.Persona{
+		Nombre:   "Juan",
+		Apellido: "Rivera",
+		Edad:     25,
+	}
+
+	repo := NewRepositorySQL()
+
+	service := NewServiceSQL(repo)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	personaCargada, err := service.GetOneWithContext(ctx, 2)
+	assert.Nil(t, err)
+	assert.Equal(t, personaNueva.Nombre, personaCargada.Nombre)
+	assert.Equal(t, personaNueva.Apellido, personaCargada.Apellido)
 	// assert.Nil(t, misPersonas)
 }
