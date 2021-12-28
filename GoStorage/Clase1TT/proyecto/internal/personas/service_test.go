@@ -4,12 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"testing"
 	"time"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/extmatperez/w2GoPrueba/GoStorage/Clase1TT/proyecto/internal/models"
+	"github.com/extmatperez/w2GoPrueba/GoStorage/Clase1TT/proyecto/pkg/db"
 	"github.com/extmatperez/w2GoPrueba/GoStorage/Clase1TT/proyecto/pkg/store"
 )
 
@@ -388,5 +391,126 @@ func TestGetOneContextServiceSQL(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, personaNueva.Nombre, personaCargada.Nombre)
 	assert.Equal(t, personaNueva.Apellido, personaCargada.Apellido)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestGetOneContextServiceSQLMock(t *testing.T) {
+	//Arrange
+	personaNueva := models.Persona{
+		Nombre:   "Juan",
+		Apellido: "Rivera",
+		Edad:     25,
+	}
+	db := db.StorageDB
+	repo := NewRepositorySQLMock(db)
+
+	service := NewServiceSQL(repo)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	personaCargada, err := service.GetOneWithContext(ctx, 2)
+	assert.Nil(t, err)
+	assert.Equal(t, personaNueva.Nombre, personaCargada.Nombre)
+	assert.Equal(t, personaNueva.Apellido, personaCargada.Apellido)
+	// assert.Nil(t, misPersonas)
+}
+
+func TestGetOneServiceSQLMock(t *testing.T) {
+	//Arrange
+	db, mock, err := sqlmock.New()
+	assert.Nil(t, err)
+	defer db.Close()
+	rows := sqlmock.NewRows([]string{"id", "nombre", "apellido", "edad"})
+	rows.AddRow(1, "Matias", "Perez", 27)
+	mock.ExpectQuery("SELECT id, nombre,apellido, edad FROM personas WHERE id = ?").WithArgs(1).WillReturnRows(rows)
+
+	repo := NewRepositorySQLMock(db)
+	service := NewServiceSQL(repo)
+
+	personaCargada := service.GetOne(1)
+
+	assert.Equal(t, "Matias", personaCargada.Nombre)
+	assert.Equal(t, "Perez", personaCargada.Apellido)
+
+	assert.NoError(t, mock.ExpectationsWereMet())
+	// assert.Nil(t, misPersonas)
+}
+
+func TestStoreServiceSQLMock(t *testing.T) {
+	//Arrange
+	db, mock, err := sqlmock.New()
+	assert.Nil(t, err)
+	defer db.Close()
+
+	personaNueva := models.Persona{
+		Nombre:   "Juan",
+		Apellido: "Rivera",
+		Edad:     25,
+	}
+
+	mock.ExpectPrepare("INSERT INTO")
+	mock.ExpectExec("INSERT INTO").WillReturnResult(sqlmock.NewResult(8, 1))
+	//mock.ExpectQuery("SELECT id, nombre,apellido, edad FROM personas WHERE id = ?").WithArgs(1).WillReturnRows(rows)
+
+	repo := NewRepositorySQLMock(db)
+	service := NewServiceSQL(repo)
+
+	personaCargada, err := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Nil(t, err)
+	assert.Equal(t, 8, personaCargada.ID)
+	assert.Equal(t, "Juan", personaCargada.Nombre)
+	assert.Equal(t, "Rivera", personaCargada.Apellido)
+
+	assert.NoError(t, mock.ExpectationsWereMet())
+	// assert.Nil(t, misPersonas)
+}
+
+func TestStoreServiceSQLMock_Failed(t *testing.T) {
+	//Arrange
+	db, mock, err := sqlmock.New()
+	assert.Nil(t, err)
+	defer db.Close()
+
+	personaNueva := models.Persona{
+		Nombre:   "Juan",
+		Apellido: "Rivera",
+		Edad:     25,
+	}
+
+	mock.ExpectPrepare("INSERT INTO personas")
+	mock.ExpectExec("").WillReturnError(errors.New("No se pudo cargar la persona"))
+	//mock.ExpectQuery("SELECT id, nombre,apellido, edad FROM personas WHERE id = ?").WithArgs(1).WillReturnRows(rows)
+
+	repo := NewRepositorySQLMock(db)
+	service := NewServiceSQL(repo)
+
+	_, err = service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Equal(t, "No se pudo cargar la persona", err.Error())
+
+	assert.NoError(t, mock.ExpectationsWereMet())
+	// assert.Nil(t, misPersonas)
+}
+
+func TestStoreServiceSQLTxdb(t *testing.T) {
+	//Arrange
+	personaNueva := models.Persona{
+		Nombre:   "Pepito",
+		Apellido: "Perez",
+		Edad:     27,
+	}
+	db, err := db.InitDb()
+	assert.Nil(t, err)
+	repo := NewRepositorySQLMock(db)
+	defer db.Close()
+
+	service := NewServiceSQL(repo)
+
+	personaCreada, _ := service.Store(personaNueva.Nombre, personaNueva.Apellido, personaNueva.Edad)
+
+	assert.Equal(t, personaNueva.Nombre, personaCreada.Nombre)
+	assert.Equal(t, personaNueva.Apellido, personaCreada.Apellido)
+	fmt.Println(personaCreada)
 	// assert.Nil(t, misPersonas)
 }
