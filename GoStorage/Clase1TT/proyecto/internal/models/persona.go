@@ -18,3 +18,11 @@ type DTOAvgAge struct {
 	Nombre  string  `json:"nombre"`
 	Average float64 `json:"average"`
 }
+
+type PersonaDynamo struct {
+	ID        string `json:"id"`
+	Nombre    string `json:"nombre"`
+	Apellido  string `json:"apellido"`
+	Edad      int    `json:"edad"`
+	Domicilio Ciudad `json:"domicilio"`
+}
