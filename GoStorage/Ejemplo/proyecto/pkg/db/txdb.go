@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	dataSource := "root:root@tcp(localhost:3306)/dbpersonas"
+	dataSource := "root:root@tcp(localhost:3306)/productos"
 	txdb.Register("txdb", "mysql", dataSource)
 }
 
