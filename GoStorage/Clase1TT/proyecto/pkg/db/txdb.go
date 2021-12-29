@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/DATA-DOG/go-txdb"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func init() {
@@ -12,9 +13,11 @@ func init() {
 }
 
 func InitDb() (*sql.DB, error) {
-	db, err := sql.Open("txdb", "indentificar")
-	if err != nil {
-		return db, err
+	db, err := sql.Open("txdb", "identificador")
+
+	if err == nil {
+		return db, db.Ping()
 	}
-	return db, nil
+
+	return db, err
 }
